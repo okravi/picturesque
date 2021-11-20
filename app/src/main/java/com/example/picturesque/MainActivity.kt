@@ -33,6 +33,18 @@ class MainActivity : AppCompatActivity() {
             brushDialog.dismiss()
         }
 
+        val mediumBtn = brushDialog.findViewById(R.id.ib_medium_brush) as ImageButton
+        mediumBtn.setOnClickListener{
+            drawingView?.setSizeForBrush(20.toFloat())
+            brushDialog.dismiss()
+        }
+
+        val largeBtn = brushDialog.findViewById(R.id.ib_large_brush) as ImageButton
+        largeBtn.setOnClickListener{
+            drawingView?.setSizeForBrush(30.toFloat())
+            brushDialog.dismiss()
+        }
+
         brushDialog.show()
 
 
