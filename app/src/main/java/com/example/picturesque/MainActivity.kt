@@ -1,8 +1,10 @@
 package com.example.picturesque
 
+import android.app.AlertDialog
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -80,5 +82,22 @@ class MainActivity : AppCompatActivity() {
             mImageButtonCurrentPaint = view
         }
     }
+
+    private fun showRationaleDialog(
+        string: String,
+        message: String
+    ){
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create().show()
+
+
+    }
+
+
 
 }
