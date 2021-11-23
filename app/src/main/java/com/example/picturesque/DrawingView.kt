@@ -17,9 +17,17 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs){
     private var color = Color.BLACK
     private var canvas: Canvas? = null
     private val mPaths = ArrayList<CustomPath>()
+    private val mUndoPaths = ArrayList<CustomPath>()
 
     init {
         setUpDrawing()
+    }
+
+    fun onClickUndo(){
+        if (mPaths.size > 0){
+            mUndoPaths.add(mPaths.removeAt(mPaths.size.minus(1)))
+            invalidate()
+        }
     }
 
     private fun setUpDrawing(){
@@ -30,7 +38,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs){
         mDrawPaint!!.strokeJoin = Paint.Join.ROUND
         mDrawPaint!!.strokeCap = Paint.Cap.ROUND
         mCanvasPaint = Paint(Paint.DITHER_FLAG)
-        //mBrushSize = 20.toFloat()
+
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
