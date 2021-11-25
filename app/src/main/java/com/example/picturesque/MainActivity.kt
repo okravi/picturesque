@@ -206,6 +206,19 @@ class MainActivity : AppCompatActivity() {
                     val fo = FileOutputStream(f)
                     fo.write(bytes.toByteArray())
                     fo.close()
+                    result = f.absolutePath
+
+                    runOnUiThread{
+                        if(result.isNotEmpty()){
+                            Toast.makeText(this@MainActivity,"File saved successfully: $result", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"Something went wrong while saving the file", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                catch (e: Exception){
+                    result = ""
+                    e.printStackTrace()
                 }
             }
         }
