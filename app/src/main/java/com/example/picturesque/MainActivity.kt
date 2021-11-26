@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -12,16 +13,15 @@ import android.os.Bundle
 import android.os.Message
 import android.provider.MediaStore
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -93,6 +93,20 @@ class MainActivity : AppCompatActivity() {
             drawingView?.onClickRedo()
         }
 
+        val ib_save: ImageButton = findViewById(R.id.ib_save)
+        ib_redo.setOnClickListener{
+
+            if(isReadStorageAllowed()){
+                lifecycleScope.launch {
+                    val flDrawingView: FrameLayout = findViewById(R.id.fl_drawing_view_container)
+                    saveBitmapFile(getBitmapFromView(flDrawingView))
+                }
+            }
+
+
+
+        }
+
         val ib_gallery: ImageButton = findViewById(R.id.ib_gallery)
         ib_gallery.setOnClickListener{
             requestStoragePermission()
@@ -145,6 +159,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun isReadStorageAllowed(): Boolean{
+        var result = ContextCompat.checkSelfPermission(this,
+        Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
 
     private fun requestStoragePermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(
@@ -154,8 +175,8 @@ class MainActivity : AppCompatActivity() {
             showRationaleDialog("Picturesque", "Storage access needed")
         }else{
             requestPermission.launch(arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE
-                //TODO - Add writing external storage permission
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ))
         }
     }
