@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val ib_save: ImageButton = findViewById(R.id.ib_save)
-        ib_redo.setOnClickListener{
+        ib_save.setOnClickListener{
 
             if(isReadStorageAllowed()){
                 showProgressDialog()
